@@ -5,37 +5,19 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class Universe {
-    private int seed;
     private int generations;
 
     private int[][] currentState;
     private int[][] nextState;
 
     public Universe(int size, int seed, int generations) {
-        this.seed = seed;
         this.generations = generations;
         currentState = new int[size][size];
         nextState = new int[size][size];
-        initialUniverse();
+        initialUniverse(seed);
     }
 
-    public int getSeed() {
-        return seed;
-    }
-
-    public void setSeed(int seed) {
-        this.seed = seed;
-    }
-
-    public int getGenerations() {
-        return generations;
-    }
-
-    public void setGenerations(int generations) {
-        this.generations = generations;
-    }
-
-    private void initialUniverse() {
+    private void initialUniverse(int seed) {
         Random rnd = new Random(seed);
         for (int i = 0; i < currentState.length; i++) {
             for (int j = 0; j < currentState.length; j++) {
@@ -49,26 +31,16 @@ public class Universe {
     }
 
     public void printUniverse() {
-//        for (int[] ints : currentState) {
-//            for (int j = 0; j < currentState.length; j++) {
-//                if (ints[j] == 1) {
-//                    System.out.print("0");
-//                } else {
-//                    System.out.print(" ");
-//                }
-//            }
-//            System.out.println();
-//        }
-
-        System.out.println("\ncurrentState");
-        for (int[] tab : currentState) {
-            System.out.println(Arrays.toString(tab));
+        for (int[] ints : currentState) {
+            for (int j = 0; j < currentState.length; j++) {
+                if (ints[j] == 1) {
+                    System.out.print("O");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
         }
-//
-//        System.out.println("\nnextState");
-//        for (int[] tab : nextState) {
-//            System.out.println(Arrays.toString(tab));
-//        }
     }
 
     public void evolveUniverse() {
@@ -107,11 +79,9 @@ public class Universe {
                     }
                 }
             }
-
-            for (int p=0; p<currentState.length;p++) {
-                currentState[p] = nextState.clone()[p];
+            for (int p=0; p< currentState.length;p++) {
+                System.arraycopy(nextState[p], 0, currentState[p], 0, currentState.length);
             }
-
         }
     }
 }
